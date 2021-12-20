@@ -1,10 +1,22 @@
 from rest_framework import viewsets, permissions
 from .models import Todo
 from .serializers import TodoSerializer
+from .pagination import CustomPagination
+
 
 class TodoViewSet(viewsets.ModelViewSet):
-    queryset = Todo.objects.all()
+    pagination_class = CustomPagination
     permission_classes = [
-      permissions.AllowAny
+        permissions.AllowAny
     ]
     serializer_class = TodoSerializer
+
+    def get_queryset(self):
+        queryset = Todo.objects.all()
+        completed = self.request.query_params.get('completed')
+        in_completed = self.request.query_params.get('incompleted')
+        if completed is not None:
+            queryset = queryset.filter(done=True)
+        if in_completed is not None:
+            queryset = queryset.filter(done=False)
+        return queryset.order_by('-date_update')
