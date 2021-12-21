@@ -14,7 +14,7 @@ class TodoViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Todo.objects.all()
         completed = self.request.query_params.get('completed')
-        in_completed = self.request.query_params.get('incompleted')
+        in_completed = self.request.query_params.get('in_completed')
         if completed is not None:
             queryset = queryset.filter(done=True)
         if in_completed is not None:

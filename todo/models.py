@@ -4,8 +4,8 @@ from django.db import models
 
 
 class Todo(models.Model):
-    title = models.CharField(max_length=150)
-    description = models.CharField(max_length=300, blank=True)
+    title = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
     done = models.BooleanField(default=False)
